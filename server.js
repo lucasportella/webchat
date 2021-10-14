@@ -13,16 +13,17 @@ const io = require('socket.io')(http, {
     },
 });
 
+const webchatController = require('./controllers/webchatController.js');
+
+app.set('view engine', 'ejs');
+app.set('views', './views');
+app.use(express.static(path.join(__dirname, 'public')));
+
 io.on('connection', (socket) => {
     console.log(`${socket.id} conectado!`);
 });
 
-app.get('/', (req, res) => {
-    res.render(path.join(__dirname, 'index.ejs'));
-});
-
-app.set('view engine', 'ejs');
-app.set('views', './views');
+app.get('/', webchatController.root);
 
 http.listen(PORT, () => {
     console.log(`Ouvindo na porta ${PORT}`);
