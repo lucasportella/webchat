@@ -7,6 +7,13 @@ const nicknameInput = document.querySelector('#nickname-input');
 nicknameForm.addEventListener('submit', (e) => {
     e.preventDefault();
     nickname = nicknameInput.value;
+    nicknameInput.value = '';
+    const span = document.createElement('span');
+    span.innerHTML = 'nickname salvo com sucesso!';
+    nicknameForm.appendChild(span);
+    setTimeout(() => {
+        span.remove();
+    }, 2000);
 });
 
 const messageForm = document.querySelector('#message-form');
@@ -14,15 +21,11 @@ const messageInput = document.querySelector('#message-input');
 
 messageForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    const date = new Date();
-    const brazilianDate = date.toLocaleDateString();
-    const timeHMS = ` ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
-    const formattedDate = `${brazilianDate} ${timeHMS}`;
     const payload = { 
         chatMessage: messageInput.value,
         nickname: nickname || socket.id,
-        formattedDate };
-
+         };
+         messageInput.value = '';
     socket.emit('message', payload);
 });
 

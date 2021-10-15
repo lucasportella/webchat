@@ -3,10 +3,14 @@ module.exports = (io) => {
         console.log(`${socket.id} conectado!`);
 
         socket.on('message', (payload) => {
-            console.log('AAAAAAAAAAAAAAAAAA', payload);
-            const { chatMessage, nickname, formattedDate } = payload;
+            const { chatMessage, nickname } = payload;
 
-            const formattedMessage = `${formattedDate} ${nickname}: ${chatMessage}`;
+            const date = new Date();
+            const brazilianDate = date.toLocaleDateString();
+            const timeHMS = ` ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+            const formattedDate = `${brazilianDate} ${timeHMS}`;
+
+            const formattedMessage = `${formattedDate} - ${nickname}: ${chatMessage}`;
             
             io.emit('message', formattedMessage);
         });
