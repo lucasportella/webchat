@@ -14,7 +14,16 @@ const messageInput = document.querySelector('#message-input');
 
 messageForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    socket.emit('message', { chatMessage: messageInput.value, nickname: nickname || socket.id });
+    const date = new Date();
+    const brazilianDate = date.toLocaleDateString();
+    const timeHMS = ` ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+    const formattedDate = `${brazilianDate} ${timeHMS}`;
+    const payload = { 
+        chatMessage: messageInput.value,
+        nickname: nickname || socket.id,
+        formattedDate };
+
+    socket.emit('message', payload);
 });
 
 const ul = document.querySelector('ul');
