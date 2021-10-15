@@ -19,9 +19,7 @@ app.set('view engine', 'ejs');
 app.set('views', './views');
 app.use(express.static(path.join(__dirname, 'public')));
 
-io.on('connection', (socket) => {
-    console.log(`${socket.id} conectado!`);
-});
+require('./socket/webchat')(io);
 
 app.get('/', webchatController.root);
 
