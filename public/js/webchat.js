@@ -28,7 +28,7 @@ messageForm.addEventListener('submit', (e) => {
 
 const ul = document.querySelector('ul');
 
-socket.on('message-return', (formattedMessage) => {
+socket.on('message', (formattedMessage) => {
     const li = document.createElement('li');
     li.innerText = formattedMessage;
     ul.appendChild(li);

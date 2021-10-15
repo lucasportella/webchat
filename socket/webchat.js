@@ -3,11 +3,12 @@ module.exports = (io) => {
         console.log(`${socket.id} conectado!`);
 
         socket.on('message', (payload) => {
+            console.log('AAAAAAAAAAAAAAAAAA', payload);
             const { chatMessage, nickname, formattedDate } = payload;
 
-            const formattedMessage = `${formattedDate} - ${nickname}: ${chatMessage}`;
+            const formattedMessage = `${formattedDate} ${nickname}: ${chatMessage}`;
             
-            io.emit('message-return', formattedMessage);
+            io.emit('message', formattedMessage);
         });
     });
 };
