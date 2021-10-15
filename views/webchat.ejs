@@ -7,9 +7,13 @@
     <title>Document</title>
 </head>
 <body>
+    <form id="nickname-form">
+        <input placeholder="Insira seu nickname" id="nickname-input">
+        <button>Salvar</button>
+    </form>
     <ul></ul>
-    <form>
-        <input type="text" id="textInput">
+    <form id="message-form">
+        <input type="text" placeholder="Olá, pessoal!" id="message-input">
         <button>Enviar</button>
         <!-- since there is a button inside the form tag, that is enough to trigger the form event listener. If the button is outside the form tag, clicking on it won't trigger the 'submit' event listener  -->
     </form>
