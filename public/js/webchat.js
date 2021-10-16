@@ -35,6 +35,7 @@ const ul = document.querySelector('ul');
 socket.on('message', (formattedMessage) => {
     const li = document.createElement('li');
     li.innerText = formattedMessage;
+    li.setAttribute('data-testid', 'message');
     ul.appendChild(li);
 });
 
