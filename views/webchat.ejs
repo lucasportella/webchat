@@ -15,7 +15,7 @@
     </form>
     <ul>
         <% messages.forEach((message) => { %>
-            <li><%= message.message %></li>
+            <li data-testid='message'><%= message %></li>
             <%}) %>
     </ul>
     <form id="message-form">

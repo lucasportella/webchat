@@ -2,7 +2,10 @@ const connection = require('./connection');
 
 const getMessages = async () => {
     const db = await connection();
-    return db.collection('messages').find().toArray();
+    const messages = await db.collection('messages').find().toArray();
+    const formattedMessages = messages.map((message) =>
+    `${message.timestamp} - ${message.nickname}: ${message.message}`);
+    return formattedMessages;
 };
 
 const saveMessage = async (payload) => {
