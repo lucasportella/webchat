@@ -43,8 +43,12 @@ socket.on('currentNickname', (currentNickname) => {
     const h2 = document.querySelector('#welcome-message');
     const h3 = document.createElement('h3');
     h3.setAttribute('id', 'current-nickname-message');
-    h3.innerText = `Seu nickname atual é ${currentNickname}.`;
+    h3.innerText = 'Seu nickname atual é ';
     h2.parentNode.insertBefore(h3, h2.nextSibling);
+    const span = document.createElement('span');
+    span.innerText = `${currentNickname}`;
+    span.setAttribute('data-testid', 'online-user');
+    h3.appendChild(span);
 });
 
 socket.on('changeNickname', (newNickname) => {
