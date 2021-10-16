@@ -4,6 +4,10 @@ module.exports = (io) => {
         const currentNickname = socket.id.slice(0, 16);
         socket.emit('currentNickname', currentNickname);
 
+        socket.on('currentNickname', (nickname) => {
+            socket.emit('changeNickname', nickname);
+        });
+
         socket.on('message', (payload) => {
             const { chatMessage, nickname } = payload;
 
