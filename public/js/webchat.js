@@ -36,3 +36,10 @@ socket.on('message', (formattedMessage) => {
     li.innerText = formattedMessage;
     ul.appendChild(li);
 });
+
+socket.on('currentNickname', (currentNickname) => {
+    const h2 = document.querySelector('#welcome-message');
+    const h3 = document.createElement('h3');
+    h3.innerText = `Seu nickname atual é ${currentNickname}.`;
+    h2.parentNode.insertBefore(h3, h2.nextSibling);
+});

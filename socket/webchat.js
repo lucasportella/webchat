@@ -1,6 +1,8 @@
 module.exports = (io) => {
     io.on('connection', (socket) => {
         console.log(`${socket.id} conectado!`);
+        const currentNickname = socket.id.slice(0, 16);
+        socket.emit('currentNickname', currentNickname);
 
         socket.on('message', (payload) => {
             const { chatMessage, nickname } = payload;
