@@ -13,7 +13,11 @@
         <input placeholder="Novo nickname" id="nickname-input" data-testid="nickname-box">
         <button data-testid="nickname-button">Salvar</button>
     </form>
-    <ul></ul>
+    <ul>
+        <% messages.forEach((message) => { %>
+            <li><%= message.message %></li>
+            <%}) %>
+    </ul>
     <form id="message-form">
         <input type="text" placeholder="Olá, pessoal!" id="message-input"
         data-testid="message-box">

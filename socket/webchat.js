@@ -1,3 +1,5 @@
+const webchatController = require('../controllers/webchatController');
+
 module.exports = (io) => {
     io.on('connection', (socket) => {
         console.log(`${socket.id} conectado!`);
@@ -8,13 +10,15 @@ module.exports = (io) => {
             socket.emit('changeNickname', nickname);
         });
 
-        socket.on('message', (payload) => {
+        socket.on('message', async (payload) => {
             const { chatMessage, nickname } = payload;
 
             const date = new Date();
             const brazilianDate = date.toLocaleDateString();
             const timeHMS = ` ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
             const formattedDate = `${brazilianDate} ${timeHMS}`;
+
+            await webchatController.saveMessage({ chatMessage, nickname, formattedDate });
 
             const formattedMessage = `${formattedDate} - ${nickname}: ${chatMessage}`;
             
