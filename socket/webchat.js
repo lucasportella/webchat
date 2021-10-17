@@ -5,6 +5,7 @@ module.exports = (io) => {
         console.log(`${socket.id} conectado!`);
         const currentNickname = socket.id.slice(0, 16);
         socket.emit('currentNickname', currentNickname);
+        socket.broadcast.emit('broadcastNickname', currentNickname)
 
         socket.on('currentNickname', (nickname) => {
             socket.emit('changeNickname', nickname);

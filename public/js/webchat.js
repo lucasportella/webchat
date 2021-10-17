@@ -30,9 +30,8 @@ messageForm.addEventListener('submit', (e) => {
     socket.emit('message', payload);
 });
 
-const ul = document.querySelector('ul');
-
 socket.on('message', (formattedMessage) => {
+    const ul = document.querySelector('ul');
     const li = document.createElement('li');
     li.innerText = formattedMessage;
     li.setAttribute('data-testid', 'message');
@@ -50,6 +49,14 @@ socket.on('currentNickname', (currentNickname) => {
     span.innerText = `${currentNickname}`;
     span.setAttribute('data-testid', 'online-user');
     h3.appendChild(span);
+});
+
+socket.on('broadcastNickname', (broadcastNickname) => {
+    const ul = document.querySelector('#users-online');
+    const li = document.createElement('li');
+    li.innerText = broadcastNickname;
+    li.setAttribute('data-testid', 'online-user');
+    ul.appendChild(li);
 });
 
 socket.on('changeNickname', (newNickname) => {
