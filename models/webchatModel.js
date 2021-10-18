@@ -1,5 +1,10 @@
 const connection = require('./connection');
 
+const onlineUsers = [];
+const addOnlineUser = (payload) => {
+    
+};
+
 const getMessages = async () => {
     const db = await connection();
     const messages = await db.collection('messages').find().toArray();
