@@ -1,8 +1,12 @@
 const webchatModel = require('../models/webchatModel');
 
+const addOnlineUser = (payload) => {
+    webchatModel.addOnlineUser(payload);
+};
+
 const root = async (req, res) => {
     const messages = await webchatModel.getMessages();
-    res.render('webchat.ejs', { messages });
+    res.render('webchat.ejs', { messages, onlineUsers: webchatModel.onlineUsers });
 };
 
 const saveMessage = async (payload) => {
@@ -12,4 +16,5 @@ const saveMessage = async (payload) => {
 module.exports = {
     root,
     saveMessage,
+    addOnlineUser,
 };

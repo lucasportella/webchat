@@ -2,7 +2,7 @@ const connection = require('./connection');
 
 const onlineUsers = [];
 const addOnlineUser = (payload) => {
-    
+    onlineUsers.push(payload);
 };
 
 const getMessages = async () => {
@@ -21,6 +21,8 @@ const saveMessage = async (payload) => {
 };
 
 module.exports = {
+    onlineUsers,
     getMessages,
     saveMessage,
+    addOnlineUser,
 };
