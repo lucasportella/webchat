@@ -1,6 +1,7 @@
 const socket = window.io();
 
 let nickname;
+const testid = 'data-testid';
 const nicknameForm = document.querySelector('#nickname-form');
 const nicknameInput = document.querySelector('#nickname-input');
 
@@ -31,10 +32,10 @@ messageForm.addEventListener('submit', (e) => {
 });
 
 socket.on('message', (formattedMessage) => {
-    const ul = document.querySelector('ul');
+    const ul = document.querySelector('#messages-list');
     const li = document.createElement('li');
     li.innerText = formattedMessage;
-    li.setAttribute('data-testid', 'message');
+    li.setAttribute(testid, 'message');
     ul.appendChild(li);
 });
 
@@ -47,7 +48,7 @@ socket.on('currentNickname', (currentNickname) => {
     h2.parentNode.insertBefore(h3, h2.nextSibling);
     const span = document.createElement('span');
     span.innerText = `${currentNickname}`;
-    span.setAttribute('data-testid', 'online-user');
+    span.setAttribute(testid, 'online-user');
     h3.appendChild(span);
 });
 
@@ -55,7 +56,7 @@ socket.on('broadcastNickname', (broadcastNickname) => {
     const ul = document.querySelector('#users-online');
     const li = document.createElement('li');
     li.innerText = broadcastNickname;
-    li.setAttribute('data-testid', 'online-user');
+    li.setAttribute(testid, 'online-user');
     ul.appendChild(li);
 });
 
