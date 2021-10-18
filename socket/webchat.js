@@ -23,15 +23,20 @@ module.exports = (io) => {
         const nicknameId = socket.id.slice(0, 16);
         const currentNickname = nicknameId;
         console.log(`${currentNickname} conectado!`);
-        socket.emit('currentNickname', currentNickname);
         databaseNickname = currentNickname;
-        webchatController.addOnlineUser({ nicknameId, databaseNickname });
+        const updatedOnlineUsers = webchatController.addOnlineUser({ nicknameId, databaseNickname });
+
+        io.emit('onlineUsers', updatedOnlineUsers);
+
         socket.on('currentNickname', (nickname) => {
             socket.emit('changeNickname', nickname);
         });
-        
-        socket.broadcast.emit('broadcastNickname', currentNickname);
 
         socketMessage(io, socket);
+
+        socket.on('disconnect', () => {
+           const updatedOnlineUsers = webchatController.removeOnlineUser(nicknameId);
+            io.emit('onlineUsers', updatedOnlineUsers);
+        });
     });
 };

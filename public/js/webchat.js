@@ -52,15 +52,29 @@ socket.on('currentNickname', (currentNickname) => {
     h3.appendChild(span);
 });
 
-socket.on('broadcastNickname', (broadcastNickname) => {
-    const ul = document.querySelector('#users-online');
-    const li = document.createElement('li');
-    li.innerText = broadcastNickname;
-    li.setAttribute(testid, 'online-user');
-    ul.appendChild(li);
-});
+// socket.on('broadcastNickname', (broadcastNickname) => {
+//     const ul = document.querySelector('#users-online');
+//     const li = document.createElement('li');
+//     li.innerText = broadcastNickname;
+//     li.setAttribute(testid, 'online-user');
+//     ul.appendChild(li);
+// });
 
 socket.on('changeNickname', (newNickname) => {
     const h3 = document.querySelector('#current-nickname-message');
     h3.innerText = `Seu nickname atual é ${newNickname}.`;
+});
+
+socket.on('onlineUsers', (updatedOnlineUsers) => {
+    console.log(updatedOnlineUsers);
+    const ul = document.querySelector('#users-online');
+    while (ul.firstElementChild) {
+        ul.removeChild(ul.firstElementChild);
+    }
+    updatedOnlineUsers.forEach((user) => {
+        const li = document.createElement('li');
+        li.innerText = user.databaseNickname;
+        li.setAttribute(testid, 'online-user');
+        ul.appendChild(li);
+    });
 });

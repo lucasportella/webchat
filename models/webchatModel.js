@@ -1,8 +1,14 @@
 const connection = require('./connection');
 
-const onlineUsers = [];
+let onlineUsers = [];
 const addOnlineUser = (payload) => {
     onlineUsers.push(payload);
+    return onlineUsers;
+};
+
+const removeOnlineUser = (nicknameId) => {
+    onlineUsers = onlineUsers.filter((user) => user.nicknameId !== nicknameId).slice();
+    return onlineUsers;
 };
 
 const getMessages = async () => {
@@ -25,4 +31,5 @@ module.exports = {
     getMessages,
     saveMessage,
     addOnlineUser,
+    removeOnlineUser,
 };
