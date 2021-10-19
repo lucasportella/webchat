@@ -17,19 +17,28 @@ const socketMessage = (io, socket) => {
     });
 };
 
-module.exports = (io) => {
-    io.on('connection', (socket) => {
-        let databaseNickname;
-        const nicknameId = socket.id.slice(0, 16);
-        const currentNickname = nicknameId;
-        console.log(`${currentNickname} conectado!`);
-        databaseNickname = currentNickname;
-        const updatedOnlineUsers = webchatController.addOnlineUser({ nicknameId, databaseNickname });
+const nicknameStart = (io, socket) => {
+   const nicknameId = socket.id.slice(0, 16);
+   const databaseNickname = nicknameId;
+   
+    console.log(`${nicknameId} conectado!`);
+    // socket.emit('currentNickname', currentNickname);
+    
+    const updatedOnlineUsers = webchatController
+    .addOnlineUser({ nicknameId, databaseNickname });
+    io.emit('onlineUsers', updatedOnlineUsers);
+    return nicknameId;
+};
 
-        io.emit('onlineUsers', updatedOnlineUsers);
+const connection = (io) => {
+    io.on('connection', (socket) => {
+       const nicknameId = nicknameStart(io, socket);
 
         socket.on('currentNickname', (nickname) => {
             socket.emit('changeNickname', nickname);
+            const updatedOnlineUsers = webchatController
+            .changeUserNickname({ nicknameId, databaseNickname: nickname });
+            io.emit('onlineUsers', updatedOnlineUsers);
         });
 
         socketMessage(io, socket);
@@ -40,3 +49,5 @@ module.exports = (io) => {
         });
     });
 };
+
+module.exports = connection;

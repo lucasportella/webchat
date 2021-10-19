@@ -39,31 +39,23 @@ socket.on('message', (formattedMessage) => {
     ul.appendChild(li);
 });
 
-socket.on('currentNickname', (currentNickname) => {
-    nickname = currentNickname;
-    const h2 = document.querySelector('#welcome-message');
-    const h3 = document.createElement('h3');
-    h3.setAttribute('id', 'current-nickname-message');
-    h3.innerText = 'Seu nickname atual é ';
-    h2.parentNode.insertBefore(h3, h2.nextSibling);
-    const span = document.createElement('span');
-    span.innerText = `${currentNickname}`;
-    span.setAttribute(testid, 'online-user');
-    h3.appendChild(span);
-});
-
-// socket.on('broadcastNickname', (broadcastNickname) => {
-//     const ul = document.querySelector('#users-online');
-//     const li = document.createElement('li');
-//     li.innerText = broadcastNickname;
-//     li.setAttribute(testid, 'online-user');
-//     ul.appendChild(li);
+// socket.on('currentNickname', (currentNickname) => {
+//     nickname = currentNickname;
+//     const h2 = document.querySelector('#welcome-message');
+//     const h3 = document.createElement('h3');
+//     h3.setAttribute('id', 'current-nickname-message');
+//     h3.innerText = 'Seu nickname atual é ';
+//     h2.parentNode.insertBefore(h3, h2.nextSibling);
+//     const span = document.createElement('span');
+//     span.innerText = `${currentNickname}`;
+//     span.setAttribute(testid, 'online-user');
+//     h3.appendChild(span);
 // });
 
-socket.on('changeNickname', (newNickname) => {
-    const h3 = document.querySelector('#current-nickname-message');
-    h3.innerText = `Seu nickname atual é ${newNickname}.`;
-});
+// socket.on('changeNickname', (newNickname) => {
+//     const h3 = document.querySelector('#current-nickname-message');
+//     h3.innerText = `Seu nickname atual é ${newNickname}.`;
+// });
 
 socket.on('onlineUsers', (updatedOnlineUsers) => {
     console.log(updatedOnlineUsers);
@@ -78,3 +70,5 @@ socket.on('onlineUsers', (updatedOnlineUsers) => {
         ul.appendChild(li);
     });
 });
+
+// window.onbeforeunload = () => socket.disconnect();

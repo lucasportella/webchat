@@ -1,12 +1,10 @@
 const webchatModel = require('../models/webchatModel');
 
-const addOnlineUser = (payload) => {
-    return webchatModel.addOnlineUser(payload);
-};
+const addOnlineUser = (payload) => webchatModel.addOnlineUser(payload);
 
-const removeOnlineUser = (nicknameId) => {
-    return webchatModel.removeOnlineUser(nicknameId);
-};
+const removeOnlineUser = (nicknameId) => webchatModel.removeOnlineUser(nicknameId);
+
+const changeUserNickname = (payload) => webchatModel.changeUserNickname(payload);
 
 const root = async (req, res) => {
     const messages = await webchatModel.getMessages();
@@ -22,4 +20,5 @@ module.exports = {
     saveMessage,
     addOnlineUser,
     removeOnlineUser,
+    changeUserNickname,
 };

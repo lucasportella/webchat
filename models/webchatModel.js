@@ -11,6 +11,16 @@ const removeOnlineUser = (nicknameId) => {
     return onlineUsers;
 };
 
+const changeUserNickname = (payload) => {
+    onlineUsers = onlineUsers.map((user) => {
+        if (user.nicknameId === payload.nicknameId) {
+            return { nicknameId: payload.nicknameId, databaseNickname: payload.databaseNickname };
+        }
+        return user;
+    }).slice();
+    return onlineUsers;
+};
+
 const getMessages = async () => {
     const db = await connection();
     const messages = await db.collection('messages').find().toArray();
@@ -32,4 +42,5 @@ module.exports = {
     saveMessage,
     addOnlineUser,
     removeOnlineUser,
+    changeUserNickname,
 };
