@@ -1,6 +1,7 @@
 const socket = window.io();
 
 let nickname;
+let nicknameId;
 const testid = 'data-testid';
 const nicknameForm = document.querySelector('#nickname-form');
 const nicknameInput = document.querySelector('#nickname-input');
@@ -10,7 +11,7 @@ nicknameForm.addEventListener('submit', (e) => {
     nickname = nicknameInput.value;
     nicknameInput.value = '';
     const span = document.createElement('span');
-    socket.emit('currentNickname', nickname);
+    socket.emit('newNickname', nickname);
     span.innerHTML = 'nickname salvo com sucesso!';
     nicknameForm.appendChild(span);
     setTimeout(() => {
@@ -29,6 +30,11 @@ messageForm.addEventListener('submit', (e) => {
          };
          messageInput.value = '';
     socket.emit('message', payload);
+});
+
+socket.on('nicknameId', (initializeNicknameId) => {
+    nicknameId = initializeNicknameId;
+    nickname = initializeNicknameId;
 });
 
 socket.on('message', (formattedMessage) => {
@@ -52,18 +58,22 @@ socket.on('message', (formattedMessage) => {
 //     h3.appendChild(span);
 // });
 
-// socket.on('changeNickname', (newNickname) => {
-//     const h3 = document.querySelector('#current-nickname-message');
-//     h3.innerText = `Seu nickname atual é ${newNickname}.`;
-// });
+socket.on('changeNickname', (newNickname) => {
+    nickname = newNickname;
+    const h3 = document.querySelector('#current-nickname-message');
+    h3.innerText = `Seu nickname atual é ${newNickname}.`;
+});
 
 socket.on('onlineUsers', (updatedOnlineUsers) => {
-    console.log(updatedOnlineUsers);
+    const userData = { nicknameId, databaseNickname: nickname };
+    const sortedOnlineUsers = updatedOnlineUsers.filter((user) => user.nicknameId !== nicknameId);
+    sortedOnlineUsers.unshift(userData);
+    
     const ul = document.querySelector('#users-online');
     while (ul.firstElementChild) {
         ul.removeChild(ul.firstElementChild);
     }
-    updatedOnlineUsers.forEach((user) => {
+    sortedOnlineUsers.forEach((user) => {
         const li = document.createElement('li');
         li.innerText = user.databaseNickname;
         li.setAttribute(testid, 'online-user');

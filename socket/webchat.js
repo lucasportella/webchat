@@ -20,28 +20,33 @@ const socketMessage = (io, socket) => {
 const nicknameStart = (io, socket) => {
    const nicknameId = socket.id.slice(0, 16);
    const databaseNickname = nicknameId;
-   
+   socket.emit('nicknameId', nicknameId);
     console.log(`${nicknameId} conectado!`);
     // socket.emit('currentNickname', currentNickname);
     
     const updatedOnlineUsers = webchatController
     .addOnlineUser({ nicknameId, databaseNickname });
+    socket.emit('databaseNickname', databaseNickname);
     io.emit('onlineUsers', updatedOnlineUsers);
     return nicknameId;
+};
+
+const nicknameChange = (io, socket, nicknameId) => {
+    socket.on('newNickname', (nickname) => {
+        const updatedOnlineUsers = webchatController
+        .changeUserNickname({ nicknameId, databaseNickname: nickname });
+        // socket.emit('changeNickname', nickname);
+        io.emit('onlineUsers', updatedOnlineUsers);
+    });
 };
 
 const connection = (io) => {
     io.on('connection', (socket) => {
        const nicknameId = nicknameStart(io, socket);
-
-        socket.on('currentNickname', (nickname) => {
-            socket.emit('changeNickname', nickname);
-            const updatedOnlineUsers = webchatController
-            .changeUserNickname({ nicknameId, databaseNickname: nickname });
-            io.emit('onlineUsers', updatedOnlineUsers);
-        });
-
-        socketMessage(io, socket);
+       
+       nicknameChange(io, socket, nicknameId);
+        
+       socketMessage(io, socket);
 
         socket.on('disconnect', () => {
            const updatedOnlineUsers = webchatController.removeOnlineUser(nicknameId);
