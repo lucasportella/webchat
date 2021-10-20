@@ -1,26 +1,5 @@
 const connection = require('./connection');
 
-let onlineUsers = [];
-const addOnlineUser = (payload) => {
-    onlineUsers.push(payload);
-    return onlineUsers;
-};
-
-const removeOnlineUser = (nicknameId) => {
-    onlineUsers = onlineUsers.filter((user) => user.nicknameId !== nicknameId).slice();
-    return onlineUsers;
-};
-
-const changeUserNickname = (payload) => {
-    onlineUsers = onlineUsers.map((user) => {
-        if (user.nicknameId === payload.nicknameId) {
-            return { nicknameId: payload.nicknameId, databaseNickname: payload.databaseNickname };
-        }
-        return user;
-    }).slice();
-    return onlineUsers;
-};
-
 const getMessages = async () => {
     const db = await connection();
     const messages = await db.collection('messages').find().toArray();
@@ -37,10 +16,6 @@ const saveMessage = async (payload) => {
 };
 
 module.exports = {
-    onlineUsers,
     getMessages,
     saveMessage,
-    addOnlineUser,
-    removeOnlineUser,
-    changeUserNickname,
 };
