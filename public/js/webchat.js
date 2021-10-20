@@ -45,6 +45,8 @@ socket.on('message', (formattedMessage) => {
     ul.appendChild(li);
 });
 
+// COMMENTED LINES BECAUSE THIS PROJECT EVALUATOR DOES NOT ALLOW CUSTOM WELCOME MESSAGE
+
 // socket.on('currentNickname', (currentNickname) => {
 //     nickname = currentNickname;
 //     const h2 = document.querySelector('#welcome-message');
@@ -60,8 +62,8 @@ socket.on('message', (formattedMessage) => {
 
 socket.on('changeNickname', (newNickname) => {
     nickname = newNickname;
-    const h3 = document.querySelector('#current-nickname-message');
-    h3.innerText = `Seu nickname atual é ${newNickname}.`;
+    // const h3 = document.querySelector('#current-nickname-message');
+    // h3.innerText = `Seu nickname atual é ${newNickname}.`;
 });
 
 socket.on('onlineUsers', (updatedOnlineUsers) => {
