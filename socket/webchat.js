@@ -1,4 +1,5 @@
 const webchatController = require('../controllers/webchatController');
+const onlineUsersController = require('../controllers/onlineUsersController');
 
 const socketMessage = (io, socket) => {
     socket.on('message', async (payload) => {
@@ -24,7 +25,7 @@ const nicknameStart = (io, socket) => {
     console.log(`${nicknameId} conectado!`);
     // socket.emit('currentNickname', currentNickname);
     
-    const updatedOnlineUsers = webchatController
+    const updatedOnlineUsers = onlineUsersController
     .addOnlineUser({ nicknameId, databaseNickname });
     socket.emit('databaseNickname', databaseNickname);
     io.emit('onlineUsers', updatedOnlineUsers);
@@ -33,7 +34,7 @@ const nicknameStart = (io, socket) => {
 
 const nicknameChange = (io, socket, nicknameId) => {
     socket.on('newNickname', (nickname) => {
-        const updatedOnlineUsers = webchatController
+        const updatedOnlineUsers = onlineUsersController
         .changeUserNickname({ nicknameId, databaseNickname: nickname });
         // socket.emit('changeNickname', nickname);
         io.emit('onlineUsers', updatedOnlineUsers);
@@ -49,7 +50,7 @@ const connection = (io) => {
        socketMessage(io, socket);
 
         socket.on('disconnect', () => {
-           const updatedOnlineUsers = webchatController.removeOnlineUser(nicknameId);
+           const updatedOnlineUsers = onlineUsersController.removeOnlineUser(nicknameId);
             io.emit('onlineUsers', updatedOnlineUsers);
         });
     });
